@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 import { getAuthSession } from '@/lib/auth';
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@/config';
 import MiniCreatePost from '@/components/MiniCreatePost';
+import PostFeed from '@/components/PostFeed';
 
 interface PageProps {
   params: {
@@ -42,6 +43,8 @@ const Page: FC<PageProps> = async ({ params }: PageProps) => {
       <h1 className="font-bold text-3xl md:text-4xl h-14">r/{subreddit.name}</h1>
       <MiniCreatePost session={session} />
       {/* todo: show post in user feed */}
+      <PostFeed subredditName={subreddit.name} initialPosts={subreddit.posts} />
+      {/* infinite scrolling */}
     </>
   );
 };
