@@ -1,7 +1,7 @@
 'use client';
 
 import { ExtendedPost } from '@/types/db';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 import { useIntersection } from '@mantine/hooks';
@@ -39,6 +39,12 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
       initialData: { pages: [initialPosts], pageParams: [1] },
     }
   );
+
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
 
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 

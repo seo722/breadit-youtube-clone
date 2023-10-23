@@ -30,6 +30,9 @@ const Page: FC<PageProps> = async ({ params }: PageProps) => {
           comments: true,
           subreddit: true,
         },
+        orderBy: {
+          createdAt: 'desc',
+        }, // add this orderby to desc to avoid post duplicated
 
         take: INFINITE_SCROLLING_PAGINATION_RESULTS,
       },
