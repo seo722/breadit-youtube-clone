@@ -1,3 +1,5 @@
+'use client';
+
 import axios, { AxiosError } from 'axios';
 import { FC, useEffect, useState } from 'react';
 
