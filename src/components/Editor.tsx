@@ -94,6 +94,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     }
   }, []);
 
+  //when error occur
   useEffect(() => {
     if (Object.keys(errors).length) {
       for (const [_key, value] of Object.entries(errors)) {
@@ -107,12 +108,14 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     }
   }, [errors]);
 
+  //check loading
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setIsMounted(true);
     }
   }, []);
 
+  //
   useEffect(() => {
     const init = async () => {
       await initializeEditor();

@@ -45,7 +45,7 @@ const Page: FC<PageProps> = async ({ params }: PageProps) => {
     <>
       <h1 className="font-bold text-3xl md:text-4xl h-14">r/{subreddit.name}</h1>
       <MiniCreatePost session={session} />
-      {/* todo: show post in user feed */}
+      {/* show post in user feed */}
       <PostFeed subredditName={subreddit.name} initialPosts={subreddit.posts} />
       {/* infinite scrolling */}
     </>
