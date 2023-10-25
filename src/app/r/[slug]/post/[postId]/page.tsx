@@ -1,13 +1,16 @@
 import CommentSection from '@/components/CommentSection';
+import DeletePost from '@/components/DeletePost';
 import EditorOutput from '@/components/EditorOutput';
 import PostVoteServer from '@/components/post-vote/PostVoteServer';
-import { buttonVariants } from '@/components/ui/Button';
+import { Button, buttonVariants } from '@/components/ui/Button';
+import { getAuthSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { redis } from '@/lib/redis';
 import { formatTimeToNow } from '@/lib/utils';
 import { CachedPost } from '@/types/redis';
 import { Post, User, Vote } from '@prisma/client';
-import { ArrowBigDown, ArrowBigUp, Loader2 } from 'lucide-react';
+import { ArrowBigDown, ArrowBigUp, Loader2, Trash } from 'lucide-react';
+import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -19,6 +22,7 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 const page = async ({ params }: PageProps) => {
+  const session = await getAuthSession();
   const cachedPost = (await redis.hgetall(`post:${params.postId}`)) as CachedPost;
 
   let post: (Post & { votes: Vote[]; author: User }) | null = null;
@@ -62,7 +66,10 @@ const page = async ({ params }: PageProps) => {
             Posted by u/{post?.author.username ?? cachedPost.authorUsername}{' '}
             {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
           </p>
-          <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">{post?.title ?? cachedPost.title}</h1>
+          <div className="flex flex-wrap justify-between">
+            <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">{post?.title ?? cachedPost.title}</h1>
+            {session?.user.id === post?.author.id ? <DeletePost postId={params.postId} /> : null}
+          </div>
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
 

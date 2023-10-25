@@ -36,7 +36,11 @@ export async function PATCH(req: Request) {
   }
 }
 
-// export async function DELETE(req: Request) {
+// interface contextProps {
+//   params:{postId: string}
+// }
+
+// export async function DELETE(req: Request, context: contextProps) {
 //   try {
 //     const body = await req.json();
 
