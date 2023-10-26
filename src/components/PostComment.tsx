@@ -7,7 +7,7 @@ import { formatTimeToNow } from '@/lib/utils';
 import UserAvatar from './UserAvatar';
 import CommentVotes from './CommentVotes';
 import { Button } from '@/components/ui/Button';
-import { MessageSquare, Trash } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Label } from './ui/Label';
