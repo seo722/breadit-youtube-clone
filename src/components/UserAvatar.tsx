@@ -10,7 +10,6 @@ interface UserAvatarProps extends AvatarProps {
 }
 
 const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
-  console.log(user);
   return (
     <Avatar {...props}>
       {user.image ? (

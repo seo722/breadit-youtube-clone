@@ -1,9 +1,11 @@
+import DeleteSubreddit from '@/components/DeleteSubreddit';
 import CustomFeed from '@/components/homepage/CustomFeed';
 import GeneralFeed from '@/components/homepage/GeneralFeed';
-import { buttonVariants } from '@/components/ui/Button';
+import { Button, buttonVariants } from '@/components/ui/Button';
 import { getAuthSession } from '@/lib/auth';
+import { db } from '@/lib/db';
 import { cn } from '@/lib/utils';
-import { HomeIcon } from 'lucide-react';
+import { BookCheck, HomeIcon, MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -11,6 +13,23 @@ export const fetchCache = 'force-no-store';
 
 export default async function Home() {
   const session = await getAuthSession();
+
+  // const user = await db.account.findFirst({
+  //   where: {
+  //     user: {
+  //       id: session?.user.id,
+  //     },
+  //   },
+  // });
+
+  const followedCommunities = await db.subscription.findMany({
+    where: {
+      userId: session?.user.id,
+    },
+    include: {
+      subreddit: true,
+    },
+  });
 
   return (
     <>
@@ -20,26 +39,63 @@ export default async function Home() {
         {/* @ts-expect-error server component */}
         {session ? <CustomFeed /> : <GeneralFeed />}
 
-        {/* subreddit info */}
-        <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last">
-          <div className="bg-emerald-100 px-6 py-4">
-            <p className="font-semibold py-3 flex items-center gap-1.5">
-              <HomeIcon className="h-4 w-4" />
-              Home
-            </p>
-          </div>
-
-          <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
-            <div className="flex justify-between gap-x-4 py-3">
-              <p className="text-zinc-500">
-                Your personal Breadit homepage. Come here to check in with your favorite communites.
+        <div className="flex flex-col gap-2">
+          {/* subreddit info */}
+          <div className="overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-5">
+            <div className="bg-emerald-100 px-6 py-4">
+              <p className="font-semibold py-3 flex items-center gap-1.5">
+                <HomeIcon className="h-4 w-4" />
+                Home
               </p>
             </div>
 
-            <Link href="/r/create" className={cn(buttonVariants({ className: 'w-full mt-4 mb-6' }))}>
-              Create Community
-            </Link>
+            <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+              <div className="flex justify-between gap-x-4 py-3">
+                <p className="text-zinc-500">
+                  Your personal Breadit homepage. Come here to check in with your favorite communites.
+                </p>
+              </div>
+
+              <Link href="/r/create" className={cn(buttonVariants({ className: 'w-full mt-4 mb-6' }))}>
+                Create Community
+              </Link>
+            </div>
           </div>
+
+          {session?.user && (
+            <div className="overflow-hidden h-fit rounded-lg border border-gray-200 divide-y divide-gray-200 order-last">
+              <div className="px-6 py-4">
+                <p className="font-semibold py-3 flex items-center gap-1.5">
+                  <BookCheck className="h-4 w-4" />
+                  Following community
+                </p>
+              </div>
+              {followedCommunities.length > 0 && (
+                <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 w-full">
+                  <div className="flex justify-between gap-x-4 py-1">
+                    {followedCommunities.map((community) => (
+                      <div key={community.subredditId} className="w-full text-zinc-800 flex justify-between">
+                        <Link
+                          href={`/r/${community.subreddit.name}`}
+                          className={cn(buttonVariants({ className: ' mb-2', variant: 'ghost' }))}
+                        >
+                          {community.subreddit.name}
+                        </Link>
+                        {/* <DeleteSubreddit slug={community.subreddit.name} /> */}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {followedCommunities.length === 0 && (
+                <div className="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6 w-full mb-1">
+                  <div className="flex justify-between gap-x-4 py-1">
+                    <p>Create or Join to community!</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
