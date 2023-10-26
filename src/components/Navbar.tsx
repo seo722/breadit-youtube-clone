@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Icons } from './Icons';
 import { buttonVariants } from './ui/Button';
 import UserAccountNav from './UserAccountNav';
+import SearchBar from './SearchBar';
 
 const Navbar = async () => {
   const session = await getAuthSession();
@@ -18,6 +19,7 @@ const Navbar = async () => {
         </Link>
 
         {/* search bar */}
+        <SearchBar />
 
         {/* actions */}
 

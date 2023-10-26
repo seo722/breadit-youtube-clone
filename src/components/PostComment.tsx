@@ -60,30 +60,6 @@ const PostComment: FC<PostCommentProps> = ({ comment, votesAmt, currentVote, pos
     },
   });
 
-  // const { mutate: onDelete, isLoading: isDeleteLoading } = useMutation({
-  //   mutationFn: async ({ id, postId, text, replyToId }: CommentRequest) => {
-  //     const payload: CommentRequest = {
-  //       id,
-  //       postId,
-  //       text,
-  //     };
-
-  //     await axios.delete(`/api/subreddit/post/comment`, { data: comment.id });
-
-  //     // return data;
-  //   },
-  //   onError: () => {
-  //     return toast({
-  //       title: 'Something went wrong',
-  //       description: "Comment wasn't posted successfully, please try again",
-  //       variant: 'destructive',
-  //     });
-  //   },
-  //   onSuccess: () => {
-  //     router.push(`/`);
-  //   },
-  // });
-
   return (
     <div ref={commentRef} className="flex flex-col">
       <div className="flex items-center">
@@ -113,11 +89,6 @@ const PostComment: FC<PostCommentProps> = ({ comment, votesAmt, currentVote, pos
         >
           <MessageSquare className="h-4 w-4 mr-1.5" />
           Reply
-        </Button>
-
-        <Button onClick={() => {}} variant="outline" size="xs">
-          <Trash className="h-4 w-4 mr-1.5" />
-          Delete
         </Button>
 
         {isReplying ? (
