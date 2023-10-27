@@ -62,14 +62,12 @@ const Page = () => {
   });
 
   return (
-    <div className="container flex items-center h-full max-w-3xl mx-auto">
-      <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6 ">
+    <div className="sm:container flex items-center h-full max-w-3xl mx-auto sm:pt-6">
+      <div className="relative bg-white w-full h-fit p-4 rounded-lg space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold">Create a community</h1>
         </div>
-
         <hr className="bg-zinc-500 h-px" />
-
         <div className="">
           <p className="text-lg font-medium">Name</p>
           <p className="text-xs pb-2">Community names including capitalization cannot be changed.</p>
@@ -79,7 +77,6 @@ const Page = () => {
             <Input value={input} onChange={(e) => setInput(e.target.value)} className="pl-6" />
           </div>
         </div>
-
         <div className="flex justify-end gap-4">
           <Button variant="subtle" onClick={() => router.back()}>
             Cancel

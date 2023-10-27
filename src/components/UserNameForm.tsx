@@ -66,6 +66,7 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
 
   return (
     <form
+      className=" w-full"
       onSubmit={handleSubmit((e) => {
         updateUsername(e);
       })}
@@ -77,7 +78,7 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
         </CardHeader>
 
         <CardContent>
-          <div className="relative grid gap-1">
+          <div className="relative flex gap-1">
             <div className="absolute top-0 left-0 w-8 h-10 grid place-items-center">
               <span className="text-sm text-zinc-400">u/</span>
             </div>
@@ -85,7 +86,7 @@ const UserNameForm: FC<UserNameFormProps> = ({ user }) => {
             <Label className="sr-only" htmlFor="name">
               Name
             </Label>
-            <Input id="name" className="w-[400px] pl-6" size={32} {...register('name')} />
+            <Input id="name" className="w-full pl-6" size={32} {...register('name')} />
 
             {errors?.name && <p className="px-1 text-start text-red-600">{errors.name.message}</p>}
           </div>
